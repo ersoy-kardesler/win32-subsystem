@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# win32-subsystem specific
+win32-subsystem
+
+# VSCode
+.vscode/
