@@ -2,10 +2,30 @@
 
 import colorama
 import pefile
+import sys
 
 from version import Version
 
-PROJECT_NAME = Version.get_project_name()
-PROJECT_VERSION = Version.get_version()
 
-print(f"{PROJECT_NAME} {PROJECT_VERSION}")
+class Program:
+    EXIT_SUCCESS = 0
+    EXIT_FAILURE = 1
+    def __init__(self):
+        self.PROGRAM_NAME = Version.get_project_name()
+        self.PROGRAM_VERSION = Version.get_version()
+        self.printBanner()
+
+    def getBannerString(self):
+        return f"{self.PROGRAM_NAME} {self.PROGRAM_VERSION}"
+
+    def printBanner(self):
+        print(self.getBannerString())
+
+
+def main(args):
+    program = Program()
+    return Program.EXIT_SUCCESS
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
