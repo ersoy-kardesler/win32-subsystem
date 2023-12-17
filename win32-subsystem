@@ -1,3 +1,11 @@
 #!/usr/bin/env python3
 
-print("Hello, World!")
+import colorama
+import pefile
+
+from version import Version
+
+PROJECT_NAME = Version.get_project_name()
+PROJECT_VERSION = Version.get_version()
+
+print(f"{PROJECT_NAME} {PROJECT_VERSION}")
