@@ -15,6 +15,7 @@ class Program:
 
     def __init__(self, args):
         self.args = args
+        self.exe_to_emulate = ""
 
         self.printBanner()
         self.parseArguments()
@@ -33,10 +34,13 @@ class Program:
             print("ERROR: Wrong argument number!")
             sys.exit(self.EXIT_FAILURE)
         else:
-            self.exe_to_emulate = self.args[1]
+            self.setEXEToEmulate(self.args[1])
 
     def printBanner(self):
         print(self.getBannerString())
+
+    def setEXEToEmulate(self, exe_path):
+        self.exe_to_emulate = exe_path
 
 
 def main(args):
