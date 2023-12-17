@@ -10,20 +10,37 @@ from version import Version
 class Program:
     EXIT_SUCCESS = 0
     EXIT_FAILURE = 1
-    def __init__(self):
-        self.PROGRAM_NAME = Version.get_project_name()
-        self.PROGRAM_VERSION = Version.get_version()
+    PROGRAM_NAME = Version.get_project_name()
+    PROGRAM_VERSION = Version.get_version()
+
+    def __init__(self, args):
+        self.args = args
+
         self.printBanner()
+        self.parseArguments()
+
+    def getProgramArguments(self):
+        return self.args
 
     def getBannerString(self):
         return f"{self.PROGRAM_NAME} {self.PROGRAM_VERSION}"
+
+    def getTestDirectory(self):
+        return self.test_directory()
+
+    def parseArguments(self):
+        if len(self.args) != 2:
+            print("ERROR: Wrong argument number!")
+            sys.exit(self.EXIT_FAILURE)
+        else:
+            self.exe_to_emulate = self.args[1]
 
     def printBanner(self):
         print(self.getBannerString())
 
 
 def main(args):
-    program = Program()
+    program = Program(args)
     return Program.EXIT_SUCCESS
 
 
