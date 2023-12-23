@@ -24,10 +24,13 @@ class Program:
     def emulateEXE(self, exe):
         pass
 
+    def exitWithError(self, msg):
+        self.printError(msg)
+        sys.exit(self.EXIT_FAILURE)
+
     def getEXEToEmulate(self):
         if self.exe_to_emulate is None:
-            print("ERROR: The EXE to emulate is not set!")
-            sys.exit(self.EXIT_FAILURE)
+            self.exitWithError("The EXE to emulate is not set!")
         else:
             return self.exe_to_emulate
 
@@ -42,13 +45,16 @@ class Program:
 
     def parseArguments(self):
         if len(self.args) != 2:
-            print("ERROR: Wrong argument number!")
-            sys.exit(self.EXIT_FAILURE)
+            self.exitWithError("Wrong argument number!")
         else:
             self.setEXEToEmulate(self.args[1])
 
     def printBanner(self):
         print(self.getBannerString())
+
+    def printError(self, msg):
+        colorama.init()
+        print(colorama.Fore.RED + "ERROR: " + colorama.Fore.RESET + msg)
 
     def setEXEToEmulate(self, exe_path):
         self.exe_to_emulate = exe_path
