@@ -4,6 +4,7 @@ import colorama
 import pefile
 import sys
 
+from memory import Memory
 from version import Version
 
 
@@ -19,10 +20,36 @@ class Program:
 
         self.printBanner()
         self.parseArguments()
+        self.checkEXE(self.getEXEToEmulate())
         self.emulateEXE(self.getEXEToEmulate())
 
+    def checkEXE(self, exe):
+        self.exe = pefile.PE(exe)
+
+        self.exe_mz_signature = self.exe.DOS_HEADER.e_magic
+        if self.exe_mz_signature != 0x5A4D:
+            self.exitWithError("The EXE file has wrong MZ signature!")
+
+        self.exe_pe_signature = self.exe.NT_HEADERS.Signature
+        if self.exe_pe_signature != 0x4550:
+            self.exitWithError("The EXE file has wrong PE signature!")
+
+        self.exe_machine_type = self.exe.FILE_HEADER.Machine
+        if self.exe_machine_type != 0x14c:
+            self.exitWithError("The EXE file is not i386 EXE!")
+
+        self.exe_characteristics = self.exe.FILE_HEADER.Characteristics
+        if not (self.exe_characteristics ^ 0x02):
+            self.exitWithError("The EXE file is not executable!")
+
     def emulateEXE(self, exe):
-        pass
+        self.exe = pefile.PE(exe)
+
+        self.exe_size_of_image = self.exe.OPTIONAL_HEADER.SizeOfImage
+        self.memory = Memory(self.exe_size_of_image)
+
+        self.exe_image_base = self.exe.OPTIONAL_HEADER.ImageBase
+        self.exe_size_of_headers = self.exe.OPTIONAL_HEADER.SizeOfHeaders
 
     def exitWithError(self, msg):
         self.printError(msg)
