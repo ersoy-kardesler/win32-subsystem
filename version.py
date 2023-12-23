@@ -8,5 +8,3 @@ class Version:
         with open("VERSION", "r") as f:
             PROJECT_VERSION = f.readline().strip()
             return PROJECT_VERSION
-
-
