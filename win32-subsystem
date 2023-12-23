@@ -15,10 +15,21 @@ class Program:
 
     def __init__(self, args):
         self.args = args
-        self.exe_to_emulate = ""
+        self.exe_to_emulate = None
 
         self.printBanner()
         self.parseArguments()
+        self.emulateEXE(self.getEXEToEmulate())
+
+    def emulateEXE(self, exe):
+        pass
+
+    def getEXEToEmulate(self):
+        if self.exe_to_emulate is None:
+            print("ERROR: The EXE to emulate is not set!")
+            sys.exit(self.EXIT_FAILURE)
+        else:
+            return self.exe_to_emulate
 
     def getProgramArguments(self):
         return self.args
